@@ -1,31 +1,72 @@
-//variable
-$basic-font: 16px;
-//!default
-$basic-font: 12px !default;
-$basic-ele : test;
+// @import
+@import "var.scss","mixin.scss";
+// @import "var";
 
 body{
-  $local-color: #006cff !global;
+  // !global
+  $local-color: #333 !global;
 
-  //nested properties
+  // nested properties
   font:{
-    //operations
+    // operations
     size : ($basic-font + 12px)/2;
     family: 'Microsoft YaHei';
     weight:  bold;
   }
 
-  //deprecate color: #333 + #111;
+  // deprecate color: #333 + #111;
 
   // &
   & a{
-    color: $local-color;
+    @include setColor(#006cff);
   }
 
-  //#{}
-  .#{$basic-ele}{
-    text-align :center;
+  // %
+  %icon{
+    display: inline-block;
   }
 
 }
+
+// @extend
+.fakelink{
+  @extend a;
+
+  // !optional
+  @extend .noThis !optional;
+
+  & [role=icon]{
+    @extend %icon;
+    color: $local-color;
+  }
+}
+
+// @media
+// #{}
+@media #{$media}{
+  body{
+
+    a{
+      // no @extend from out of this directive
+      color: #333;
+    }
+
+    // @at-root
+    @at-root div{
+      margin:10px;
+
+      @at-root (without:media){
+        margin:0;
+      }
+    }
+  }
+}
+
+// directives
+// @if $i < 3 {}
+// @else {}
+// @for $i from start to/through end {}
+// @each $var in list
+// @while () {}
+// @function(){ @return }
 
